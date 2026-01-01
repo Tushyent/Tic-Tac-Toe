@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="author" content="Tushyent N P" >
+    <title>Basic Tic Tac Toe</title>
+</head>
+<body>
+
+<h2>Basic Minimal Tic Tac Toe Game</h2>
+
+<table border="1">
+    <tr>
+        <td width="60" height="60" align="center" onclick="play(this,0)"></td>
+        <td width="60" height="60" align="center" onclick="play(this,1)"></td>
+        <td width="60" height="60" align="center" onclick="play(this,2)"></td>
+    </tr>
+    <tr>
+        <td width="60" height="60" align="center" onclick="play(this,3)"></td>
+        <td width="60" height="60" align="center" onclick="play(this,4)"></td>
+        <td width="60" height="60" align="center" onclick="play(this,5)"></td>
+    </tr>
+    <tr>
+        <td width="60" height="60" align="center" onclick="play(this,6)"></td>
+        <td width="60" height="60" align="center" onclick="play(this,7)"></td>
+        <td width="60" height="60" align="center" onclick="play(this,8)"></td>
+    </tr>
+</table>
+
+<p id="status"></p>
+<button onclick="resetGame()">Reset</button>
+
+<script>
+    let turn = "X";
+    let board = ["","","","","","","","",""];
+    let gameOver = false;
+
+    function play(cell, index) {
+        if (cell.innerHTML !== "" || gameOver) return;
+
+        cell.innerHTML = turn;
+        board[index] = turn;
+
+        if (checkWinner()) {
+            document.getElementById("status").innerHTML = turn + " wins!";
+            gameOver = true;
+            return;
+        }
+
+        if (!board.includes("")) {
+            document.getElementById("status").innerHTML = "Draw!";
+            gameOver = true;
+            return;
+        }
+
+        turn = (turn === "X") ? "O" : "X";
+    }
+
+    function checkWinner() {
+        let wins = [
+            [0,1,2],[3,4,5],[6,7,8],
+            [0,3,6],[1,4,7],[2,5,8],
+            [0,4,8],[2,4,6]
+        ];
+
+        for (let w of wins) {
+            if (board[w[0]] &&
+                board[w[0]] === board[w[1]] &&
+                board[w[1]] === board[w[2]]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function resetGame() {
+        board = ["","","","","","","","",""];
+        turn = "X";
+        gameOver = false;
+        document.getElementById("status").innerHTML = "";
+
+        let cells = document.getElementsByTagName("td");
+        for (let cell of cells) {
+            cell.innerHTML = "";
+        }
+    }
+</script>
+
+</body>
+</html>
